@@ -9,6 +9,7 @@ static private function PatchSkulljack()
 {
 	local X2AbilityTemplateManager	AbilityMgr;
 	local X2AbilityTemplate			Template;
+	local X2AbilityCharges			Charges;
 
 	AbilityMgr = class'X2AbilityTemplateManager'.static.GetAbilityTemplateManager();
 
@@ -18,7 +19,11 @@ static private function PatchSkulljack()
 	Template = AbilityMgr.FindAbilityTemplate('SKULLMINEAbility');
 	Template.AbilityToHitCalc = new class'X2AbilityToHitCalc_StasisLanceMod';
 
-	Template.AbilityCharges = none;
-	class'Help'.static.RemoveChargeCost(Template);
+	Charges = new class'X2AbilityCharges';
+	Charges.InitialCharges = `GetConfigInt("IRI_WP_Skullmine_Charges");
+	Template.AbilityCharges = Charges;
+
+	// TODO: Figure out nonsenical action costs and maybe cancelling.
+	// TODO: Add raise zombie hack rewards
 }
 
